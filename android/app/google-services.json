@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "726677834178",
+    "project_id": "bundle-test-5cbf6",
+    "storage_bucket": "bundle-test-5cbf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726677834178:android:dd2e39e8b17f8bff132e5b",
+        "android_client_info": {
+          "package_name": "clovisokonkwo.com.bundle_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "726677834178-v0c65dbq7ch1vf32mqje4m1e94f2df9u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "clovisokonkwo.com.bundle_test",
+            "certificate_hash": "f9a8225409ded3efd342d95a552975fdb060126c"
+          }
+        },
+        {
+          "client_id": "726677834178-rqq16k5e72srg0mn8p6jd4ukvtnu59j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKVSBLCGCe2KL6OL9kVcJYnYvdDMSXbJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726677834178-rqq16k5e72srg0mn8p6jd4ukvtnu59j0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

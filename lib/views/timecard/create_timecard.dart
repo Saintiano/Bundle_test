@@ -212,10 +212,10 @@ class _Create_TimecardState extends State<Create_Timecard> {
                                         decoration: const BoxDecoration(
                                             color: Colors.black12,
                                             borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(10),
-                                                bottomRight: Radius.circular(10),
-                                                topRight: Radius.circular(10),
-                                                topLeft: Radius.circular(10)
+                                                bottomLeft: Radius.circular(5),
+                                                bottomRight: Radius.circular(5),
+                                                topRight: Radius.circular(5),
+                                                topLeft: Radius.circular(5)
                                             )
                                         ),
                                         child: Column(
@@ -239,7 +239,45 @@ class _Create_TimecardState extends State<Create_Timecard> {
 
                                     ],
                                   ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextField(
+                                    controller: _password,
+                                    decoration: const InputDecoration(
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.purple, width: 0.9),
+                                      ),
 
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                      labelStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+
+                                      labelText: 'Total Hours Worked',
+                                    ),
+                                    onSubmitted: (String value) async {
+                                      await showDialog<void>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Thanks!'),
+                                            content: Text ('You typed "$value", which has length ${value.characters.length}.'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () { Navigator.pop(context); },
+                                                child: const Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
 
                                   const SizedBox(
                                     height: 30,

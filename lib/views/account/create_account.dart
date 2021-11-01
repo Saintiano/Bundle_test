@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bundle_test/components/bottom_nav_bar.dart';
 import 'package:bundle_test/components/rounded_back_button.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,12 +19,7 @@ class Create_Account extends StatefulWidget {
 
 class _Create_AccountState extends State<Create_Account> {
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _referalCode = TextEditingController();
-  final TextEditingController _countryCode = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
+  Firebase_Controller controller = Firebase_Controller();
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +97,7 @@ class _Create_AccountState extends State<Create_Account> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   TextField(
-                                    controller: _email,
+                                    controller: controller.email,
                                     decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -140,7 +136,7 @@ class _Create_AccountState extends State<Create_Account> {
                                     height: 10,
                                   ),
                                   TextField(
-                                    controller: _password,
+                                    controller: controller.password,
                                     decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -179,7 +175,7 @@ class _Create_AccountState extends State<Create_Account> {
                                     height: 10,
                                   ),
                                   TextField(
-                                    controller: _password,
+                                    controller: controller.username,
                                     decoration: const InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -226,7 +222,7 @@ class _Create_AccountState extends State<Create_Account> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
-                                    child: const Text("By signing in, you agree to Hagglex terms and privacy policy",
+                                    child: const Text("By signing in, you agree to Bundle Africa terms and privacy policy",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -244,7 +240,7 @@ class _Create_AccountState extends State<Create_Account> {
                                   minWidth: double.infinity,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(()=> const Complete_Setup());
+                                      controller.registerWithEmailAndPassword(controller.email.text, controller.password.text, controller.username.text);
                                     },
                                     child: Container(
                                         height: 50,

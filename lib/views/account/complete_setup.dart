@@ -2,9 +2,11 @@
 import 'package:bundle_test/components/rounded_back_button.dart';
 import 'package:bundle_test/components/verified_design.dart';
 import 'package:bundle_test/constants/data.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'create_account.dart';
 import 'setup_completed.dart';
@@ -18,7 +20,7 @@ class Complete_Setup extends StatefulWidget {
 
 class _Complete_SetupState extends State<Complete_Setup> {
 
-  final TextEditingController _verify = TextEditingController();
+  Firebase_Controller controller = Firebase_Controller();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,9 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                     child: Column(
                                       children: [
                                         GestureDetector(
+                                          onTap:(){
+                                            controller.getImage2(ImageSource.gallery);
+                                          },
                                           child: Container(
                                             width: 100,
                                             height: 100,
@@ -135,7 +140,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.name,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -174,7 +179,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         height: 20,
                                       ),
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.email,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -213,7 +218,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         height: 20,
                                       ),
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.username,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -252,7 +257,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         height: 20,
                                       ),
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.company,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -291,7 +296,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         height: 20,
                                       ),
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.position,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -330,7 +335,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         height: 20,
                                       ),
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.phoneNumber,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -368,6 +373,45 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                       const SizedBox(
                                         height: 20,
                                       ),
+                                      TextField(
+                                        controller: controller.address,
+                                        decoration: const InputDecoration(
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.purple, width: 0.9),
+                                          ),
+
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                          labelStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+
+                                          labelText: 'Address',
+                                        ),
+                                        onSubmitted: (String value) async {
+                                          await showDialog<void>(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text('Thanks!'),
+                                                content: Text ('You typed "$value", which has length ${value.characters.length}.'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () { Navigator.pop(context); },
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
                                       ///Menu Mode with no searchBox
                                       DropdownSearch<String>(
                                         validator: (v) => v == null ? "required field" : null,
@@ -377,10 +421,12 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         items: gender,
                                         label: "Select a gender *",
                                         showClearButton: true,
-                                        onChanged: print,
+                                        onChanged: (value){
+                                          controller.gender.text = value!;
+                                        },
                                         popupItemDisabled: (String? s) => s?.startsWith('Z') ?? false, //Deactivate any option starting with letter Z
                                         clearButtonSplashRadius: 20,
-                                        selectedItem: "Select a gender",//Preselected data
+                                        selectedItem: controller.gender.text,//Preselected data
                                         onBeforeChange: (a, b) {
                                           if (b == null) {
                                             AlertDialog alert = AlertDialog(
@@ -421,8 +467,10 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         mode: Mode.BOTTOM_SHEET,
                                         items: stateData,
                                         label: "Select a state",
-                                        onChanged: print,
-                                        selectedItem: "Abia",
+                                        onChanged: (value){
+                                          controller.state.text = value!;
+                                        },
+                                        selectedItem: controller.state.text,
                                         showSearchBox: true,
                                         searchFieldProps: TextFieldProps(
                                           decoration: const InputDecoration(
@@ -469,7 +517,10 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                       minWidth: double.infinity,
                                       child: GestureDetector(
                                         onTap: () {
-                                          Get.to(()=> const Setup_Completed());
+                                          controller.Ccomplete_registration(controller.email.text, controller.username.text,
+                                            controller.name.text, controller.address.text, controller.company.text, controller.state.text,
+                                            controller.position.text, controller.gender.text, controller.phoneNumber.text
+                                          );
                                         },
                                         child: Container(
                                             height: 50,

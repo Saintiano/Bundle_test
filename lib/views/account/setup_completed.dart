@@ -1,5 +1,6 @@
 import 'package:bundle_test/components/bottom_nav_bar.dart';
 import 'package:bundle_test/components/verified_design.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +14,9 @@ class Setup_Completed extends StatefulWidget {
 }
 
 class _Setup_CompletedState extends State<Setup_Completed> {
-  @override
+
+  Firebase_Controller controller = Firebase_Controller();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,7 +91,7 @@ class _Setup_CompletedState extends State<Setup_Completed> {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        Text("Full Name",
+                                        Text("Full Name" ,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontSize: 14,

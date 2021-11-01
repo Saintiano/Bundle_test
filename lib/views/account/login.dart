@@ -1,5 +1,6 @@
 
 import 'package:bundle_test/components/bottom_nav_bar.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,8 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  Firebase_Controller controller = Firebase_Controller();
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           TextField(
-                            controller: _email,
+                            controller: controller.email,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -122,7 +122,7 @@ class _LoginState extends State<Login> {
                             height: 35,
                           ),
                           TextField(
-                            controller: _password,
+                            controller: controller.password,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                               minWidth: double.infinity,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(()=> const Bottom_Nav_Bar());
+                                  controller.signInWithEmailAndPassword(controller.email.text, controller.password.text);
                                 },
                                 child: Container(
                                     height: 50,
@@ -219,9 +219,9 @@ class _LoginState extends State<Login> {
                   child: const Text("New User? Create a new account",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: Colors.grey,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
