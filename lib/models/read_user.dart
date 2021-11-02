@@ -35,6 +35,22 @@ class UserData {
     active = data['active'];
     userId = data['uid'];
 
+    // name ??= "";
+    // company ??= "";
+    // photoUrl ??= "";
+    // username ??= "";
+    // email ??= "";
+    // email ??= "";
+    // position ??= "";
+    // phone_number ??= "";
+    // date_of_registration ??= "";
+    // state ??= "";
+    // address ??= "";
+    // gender ??= "";
+    // total_hours_worked ??= "";
+    // total_revenue_generated ??= "";
+    // active ??= "";
+    // userId ??= "";
 
   }
 }

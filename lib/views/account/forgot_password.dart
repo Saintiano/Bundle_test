@@ -1,6 +1,7 @@
 
 import 'package:bundle_test/components/rounded_back_button.dart';
 import 'package:bundle_test/components/verified_design.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:flutter/material.dart';
 
 class Foregot_Password extends StatefulWidget {
@@ -12,7 +13,7 @@ class Foregot_Password extends StatefulWidget {
 
 class _Foregot_PasswordState extends State<Foregot_Password> {
 
-  final TextEditingController _verify = TextEditingController();
+  Firebase_Controller controller = Firebase_Controller();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _Foregot_PasswordState extends State<Foregot_Password> {
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        Text("Please your email",
+                                        Text("Please your the email you created your account with",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontSize: 14,
@@ -114,7 +115,7 @@ class _Foregot_PasswordState extends State<Foregot_Password> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       TextField(
-                                        controller: _verify,
+                                        controller: controller.email,
                                         decoration: const InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
@@ -160,7 +161,9 @@ class _Foregot_PasswordState extends State<Foregot_Password> {
                                   ButtonTheme(
                                       minWidth: double.infinity,
                                       child: GestureDetector(
-                                        onTap: () {},
+                                        onTap: () {
+                                          controller.sendPasswordResetEmail(controller.email.text);
+                                        },
                                         child: Container(
                                             height: 50,
                                             width: double.infinity,

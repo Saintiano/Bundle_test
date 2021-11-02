@@ -96,6 +96,8 @@ class Firebase_Controller extends GetxController{
   Rxn<User> firebaseUser = Rxn<User>();
   Rxn<UserModel> firestoreUser = Rxn<UserModel>();
 
+  late DatabaseReference _userProfiles;
+
   // Firebase user one-time fetch
   Future<User> get getUser async => _auth.currentUser!;
 
@@ -117,8 +119,10 @@ class Firebase_Controller extends GetxController{
     // TODO: implement onInit
     firebaseUser.bindStream(_auth.authStateChanges());
 
-    // getUsertream(_updateUserProfile)
-    //     .then((StreamSubscription s) => _subscriptionuser = s);
+    getUsertream(_updateUserProfile)
+        .then((StreamSubscription s) => _subscriptionuser = s);
+
+
 
     super.onInit();
   }
@@ -192,6 +196,8 @@ class Firebase_Controller extends GetxController{
         var _uid = result.user!.uid.toString();
         var _email = result.user!.email.toString();
 
+        _userProfiles = FirebaseDatabase.instance.reference().child('User_Profiles');
+
         //get photo url from gravatar if user has one
 
         //create the new user object
@@ -201,6 +207,7 @@ class Firebase_Controller extends GetxController{
           "username": username,
           "date_of_registration": inputDate.toString(),
         };
+
         //create the user in firestore
         _createUserFirestore(_newUser, _uid);
 
@@ -223,6 +230,9 @@ class Firebase_Controller extends GetxController{
         .collection("User_Profiles")
         .doc(uid)
         .set(userdata);
+
+    _userProfiles.child(uid).set(userdata);
+
   }
 
   // User registration using email and password
@@ -303,10 +313,10 @@ class Firebase_Controller extends GetxController{
 
 
   //password reset email
-  Future<void> sendPasswordResetEmail(BuildContext context) async {
+  Future<void> sendPasswordResetEmail(String email) async {
     showLoadingIndicator();
     try {
-      await _auth.sendPasswordResetEmail(email: email.text);
+      await _auth.sendPasswordResetEmail(email: email);
       hideLoadingIndicator();
       Get.snackbar(
           'Password Reset'.tr, 'Please check your email'.tr,

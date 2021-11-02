@@ -4,6 +4,7 @@ import 'package:bundle_test/components/verified_design.dart';
 import 'package:bundle_test/constants/data.dart';
 import 'package:bundle_test/controller/firebase_controller.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,6 +22,19 @@ class Complete_Setup extends StatefulWidget {
 class _Complete_SetupState extends State<Complete_Setup> {
 
   Firebase_Controller controller = Firebase_Controller();
+
+  var firebaseUserUID =  FirebaseAuth.instance.currentUser;
+
+  String uid = "";
+
+  @override
+  void initState() {
+    uid = firebaseUserUID!.uid;
+
+    controller.email.text = uid;
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +134,9 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        const Text("Tap image to select profile image",
+                                        Text(uid,
                                           textAlign: TextAlign.left,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 10,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.normal,
@@ -196,6 +210,9 @@ class _Complete_SetupState extends State<Complete_Setup> {
 
                                           labelText: 'Email',
                                         ),
+                                        onChanged: (value) {
+                                          value = controller.email.text;
+                                        },
                                         onSubmitted: (String value) async {
                                           await showDialog<void>(
                                             context: context,
@@ -235,6 +252,9 @@ class _Complete_SetupState extends State<Complete_Setup> {
 
                                           labelText: 'Username',
                                         ),
+                                        onChanged: (value) {
+                                          value = controller.profile_username;
+                                        },
                                         onSubmitted: (String value) async {
                                           await showDialog<void>(
                                             context: context,
@@ -379,7 +399,6 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(color: Colors.purple, width: 0.9),
                                           ),
-
                                           hintStyle: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 12,

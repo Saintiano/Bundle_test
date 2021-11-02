@@ -1,20 +1,21 @@
 {
   "project_info": {
-    "project_number": "726677834178",
-    "project_id": "bundle-test-5cbf6",
-    "storage_bucket": "bundle-test-5cbf6.appspot.com"
+    "project_number": "34502450374",
+    "firebase_url": "https://bundle-test-a27d4-default-rtdb.firebaseio.com",
+    "project_id": "bundle-test-a27d4",
+    "storage_bucket": "bundle-test-a27d4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:726677834178:android:dd2e39e8b17f8bff132e5b",
+        "mobilesdk_app_id": "1:34502450374:android:c27635409954ee583c0bc7",
         "android_client_info": {
           "package_name": "clovisokonkwo.com.bundle_test"
         }
       },
       "oauth_client": [
         {
-          "client_id": "726677834178-v0c65dbq7ch1vf32mqje4m1e94f2df9u.apps.googleusercontent.com",
+          "client_id": "34502450374-tveh87a27uul3s1cs1ue74intqgksp6d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "clovisokonkwo.com.bundle_test",
@@ -22,20 +23,20 @@
           }
         },
         {
-          "client_id": "726677834178-rqq16k5e72srg0mn8p6jd4ukvtnu59j0.apps.googleusercontent.com",
+          "client_id": "34502450374-2svo56tfli6sk37jld672c2oeamds8nt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDKVSBLCGCe2KL6OL9kVcJYnYvdDMSXbJQ"
+          "current_key": "AIzaSyAmMbnR8Z2IB0jFz74SXtgAjPnhQed-k9I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "726677834178-rqq16k5e72srg0mn8p6jd4ukvtnu59j0.apps.googleusercontent.com",
+              "client_id": "34502450374-2svo56tfli6sk37jld672c2oeamds8nt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
