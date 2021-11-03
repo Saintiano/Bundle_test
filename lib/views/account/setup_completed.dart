@@ -1,6 +1,8 @@
 import 'package:bundle_test/components/bottom_nav_bar.dart';
 import 'package:bundle_test/components/verified_design.dart';
 import 'package:bundle_test/controller/firebase_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,39 @@ class Setup_Completed extends StatefulWidget {
 class _Setup_CompletedState extends State<Setup_Completed> {
 
   Firebase_Controller controller = Firebase_Controller();
+
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  var profile_uid = "";
+  var profile_email = "";
+  var profile_username = "";
+  var profile_name = "";
+  var profile_photoUrl = "";
+
+
+  @override
+  void initState() {
+    getUserData();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getUserData() {
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    firestoreInstance.collection("User_Profiles").doc(firebaseUser!.uid).get().then((value){
+
+      setState(() {
+        profile_name = value.data()!["name"];
+        profile_photoUrl = value.data()!["photoUrl"];
+        profile_email = value.data()!["email"];
+        profile_username = value.data()!["username"];
+        profile_uid = firebaseUser!.uid;
+        controller.email.text = value.data()!["email"];
+        controller.username.text = value.data()!["username"];
+      });
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +110,17 @@ class _Setup_CompletedState extends State<Setup_Completed> {
                                 children: [
                                   Center(
                                     child: Column(
-                                      children: const [
-                                        Verified_Design(),
-                                        SizedBox(
+                                      children:  [
+                                        CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage:
+                                          NetworkImage(
+                                            profile_photoUrl,),
+                                        ),
+                                        const SizedBox(
                                           height: 30,
                                         ),
-                                        Text("Thanks for completing your registration",
+                                        const Text("Thanks for completing your registration",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontSize: 14,
@@ -88,34 +128,34 @@ class _Setup_CompletedState extends State<Setup_Completed> {
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10,
                                         ),
-                                        Text("Full Name" ,
+                                        Text("Full Name : " + profile_name ,
                                           textAlign: TextAlign.left,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
-                                        Text("Username",
+                                        Text("Username : " + profile_username,
                                           textAlign: TextAlign.left,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 5,
                                         ),
-                                        Text("Email Address",
+                                        Text("Email Address: " + profile_email ,
                                           textAlign: TextAlign.left,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.normal,

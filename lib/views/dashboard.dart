@@ -1,7 +1,12 @@
 
+import 'dart:ui';
+
 import 'package:bundle_test/components/history_tap.dart';
 import 'package:bundle_test/components/create_timecard_card.dart';
 import 'package:bundle_test/constants/images.dart';
+import 'package:bundle_test/controller/firebase_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,15 +20,59 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  static final String path = "lib/src/pages/profile/profile3.dart";
-  final image = avatars[1];
 
-  late TextEditingController _escalation_additional_comment;
+  final image = avatars[1];
+  Firebase_Controller controller = Firebase_Controller();
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  var profile_uid = "";
+  var profile_email = "";
+  var profile_username = "";
+  var profile_name = "";
+  var profile_photoUrl = "";
+
+  var profile_company = "";
+  var profile_position = "";
+  var profile_phone_number = "";
+  var profile_date_of_registration = "";
+
+  var profile_total_hours_worked = "";
+  var profile_total_revenue_generated = "";
+  var profile_active = "";
+
 
   @override
   void initState() {
+    getUserData();
+    // TODO: implement initState
     super.initState();
-    _escalation_additional_comment = TextEditingController();
+  }
+
+  void getUserData() {
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    firestoreInstance.collection("User_Profiles").doc(firebaseUser!.uid).get().then((value){
+
+      setState(() {
+        profile_name = value.data()!["name"];
+        profile_photoUrl = value.data()!["photoUrl"];
+        profile_email = value.data()!["email"];
+        profile_username = value.data()!["username"];
+
+        profile_company = value.data()!["company"];
+        profile_position = value.data()!["position"];
+        profile_phone_number = value.data()!["phone_number"];
+        profile_date_of_registration = value.data()!["date_of_registration"];
+
+        profile_total_hours_worked = value.data()!["total_hours_worked"];
+        profile_total_revenue_generated = value.data()!["total_revenue_generated"];
+        profile_active = value.data()!["active"];
+
+        profile_uid = firebaseUser!.uid;
+        controller.email.text = value.data()!["email"];
+        controller.username.text = value.data()!["username"];
+      });
+
+    });
   }
 
   @override
@@ -138,17 +187,17 @@ class _DashboardState extends State<Dashboard> {
                                     child: Center(
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
-                                        children: const [
-                                          Text("120,000,000",
-                                            style: TextStyle(
+                                        children: [
+                                          Text(profile_total_revenue_generated,
+                                            style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 5,
                                           ),
-                                          Text("Naira",
+                                          const  Text("Naira",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
@@ -184,11 +233,16 @@ class _DashboardState extends State<Dashboard> {
                                   margin: const EdgeInsets.only(left: 96.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const <Widget>[
+                                    children:  <Widget>[
                                       ListTile(
                                         contentPadding: EdgeInsets.all(0),
-                                        title: Text("Full Name : "),
-                                        subtitle: Text("Username : "),
+                                        title: Text(profile_name,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18
+                                          ),
+                                        ),
+                                        subtitle: Text(profile_username),
                                       ),
                                     ],
                                   ),
@@ -227,12 +281,16 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        children: const <Widget>[
-                                          Text("650"),
-                                          SizedBox(
+                                        children: <Widget>[
+                                          Text(profile_total_hours_worked,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                          const SizedBox(
                                             height: 5,
                                           ),
-                                          Text("Total Time")
+                                          const Text("Total Time")
                                         ],
                                       ),
                                     ),
@@ -247,7 +305,7 @@ class _DashboardState extends State<Dashboard> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10.0),
                                 image: DecorationImage(
-                                    image: NetworkImage(image), fit: BoxFit.cover)),
+                                    image: NetworkImage(profile_photoUrl), fit: BoxFit.cover)),
                             margin: const EdgeInsets.only(left: 16.0, bottom: 36),
                           ),
                         ],

@@ -3,6 +3,7 @@ import 'package:bundle_test/components/rounded_back_button.dart';
 import 'package:bundle_test/components/verified_design.dart';
 import 'package:bundle_test/constants/data.dart';
 import 'package:bundle_test/controller/firebase_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,19 +23,59 @@ class Complete_Setup extends StatefulWidget {
 class _Complete_SetupState extends State<Complete_Setup> {
 
   Firebase_Controller controller = Firebase_Controller();
+  final firestoreInstance = FirebaseFirestore.instance;
 
-  var firebaseUserUID =  FirebaseAuth.instance.currentUser;
+  var profile_uid = "";
+  var profile_email = "";
+  var profile_username = "";
+  var profile_name = "";
+  var profile_photoUrl = "";
 
-  String uid = "";
+  var profile_company = "";
+  var profile_position = "";
+  var profile_phone_number = "";
+  var profile_date_of_registration = "";
+
+  var profile_state = "";
+  var profile_address = "";
+  var profile_gender = "";
+  var profile_total_hours_worked = "";
+  var profile_total_revenue_generated = "";
+  var profile_active = "";
+
+  var profile_billable_rate = "";
+  var profile_project_name = "";
+  var profile_date_created = "";
+  var profile_date_worked = "";
+  var profile_time_started = "";
+  var profile_time_finished = "";
+  var profile_total_time_worked = "";
+  var profile_revenue_generated = "";
 
   @override
   void initState() {
-    uid = firebaseUserUID!.uid;
-
-    controller.email.text = uid;
+    getUserData();
     // TODO: implement initState
     super.initState();
   }
+
+  void getUserData() {
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    firestoreInstance.collection("User_Profiles").doc(firebaseUser!.uid).get().then((value){
+
+      setState(() {
+        profile_name = value.data()!["name"];
+        profile_photoUrl = value.data()!["photoUrl"];
+        profile_email = value.data()!["email"];
+        profile_username = value.data()!["username"];
+        profile_uid = firebaseUser!.uid;
+        controller.email.text = value.data()!["email"];
+        controller.username.text = value.data()!["username"];
+      });
+
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +146,15 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                   Center(
                                     child: Column(
                                       children: [
-                                        GestureDetector(
+
+                                        controller.uploadedFileURL != ""
+                                            ? CircleAvatar(
+                                                radius: 60,
+                                                backgroundImage:
+                                                NetworkImage(
+                                                  controller.uploadedFileURL,),
+                                              )
+                                            : GestureDetector(
                                           onTap:(){
                                             controller.getImage2(ImageSource.gallery);
                                           },
@@ -126,17 +175,27 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                                 shape: BoxShape.circle,
                                                 image: const DecorationImage(
                                                   fit: BoxFit.cover,
-                                                  image: AssetImage("assets/images/clovis_novo.jpg"),
+                                                  image: AssetImage("assets/images/add_user.png"),
                                                 )
                                             ),
                                           ),
                                         ),
+
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Text(uid,
+                                        controller.uploadedFileURL != ""
+                                            ? const Text(" ",
                                           textAlign: TextAlign.left,
-                                          style: const TextStyle(
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ) :
+                                        const Text("Please select an image",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
                                             fontSize: 10,
                                             color: Colors.black87,
                                             fontWeight: FontWeight.normal,
@@ -253,7 +312,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
                                           labelText: 'Username',
                                         ),
                                         onChanged: (value) {
-                                          value = controller.profile_username;
+                                          value = controller.username.text;
                                         },
                                         onSubmitted: (String value) async {
                                           await showDialog<void>(
