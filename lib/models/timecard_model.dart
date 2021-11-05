@@ -1,4 +1,6 @@
 //Timecard Model
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TimecardModel {
   final String uid;
   final String email;
@@ -26,6 +28,7 @@ class TimecardModel {
   final String time_finished;
   final String total_time_worked;
   final String revenue_generated;
+  final String sortData;
 
   TimecardModel(
       {
@@ -54,14 +57,16 @@ class TimecardModel {
         required this.time_started,
         required this.time_finished,
         required this.total_time_worked,
-        required this.revenue_generated
+        required this.revenue_generated,
+        required this.sortData
 
       });
 
-  factory TimecardModel.fromMap(Map data) {
+  factory TimecardModel.fromMap(DocumentSnapshot data) {
+
     return TimecardModel(
 
-      uid: data['uid'],
+      uid: data['uid'] ?? '',
       email: data['email'] ?? '',
       name: data['name'] ?? '',
       photoUrl: data['photoUrl'] ?? '',
@@ -86,6 +91,7 @@ class TimecardModel {
       time_finished: data['time_finished'] ?? '',
       total_time_worked: data['total_time_worked'] ?? '',
       revenue_generated: data['revenue_generated'] ?? '',
+      sortData: data['sortData'] ?? '',
 
     );
   }
@@ -99,6 +105,6 @@ class TimecardModel {
 
         "billable_rate": billable_rate, "project_name": project_name, "date_created": date_created, "date_worked": date_worked,
         "time_started": time_started, "time_finished": time_finished, "total_time_worked": total_time_worked, "revenue_generated": revenue_generated,
-
+        "sortData": sortData,
       };
 }

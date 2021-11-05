@@ -67,7 +67,7 @@ class _DashboardState extends State<Dashboard> {
         profile_total_revenue_generated = value.data()!["total_revenue_generated"];
         profile_active = value.data()!["active"];
 
-        profile_uid = firebaseUser!.uid;
+        profile_uid = value.data()!["uid"];
         controller.email.text = value.data()!["email"];
         controller.username.text = value.data()!["username"];
       });

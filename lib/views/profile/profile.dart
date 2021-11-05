@@ -18,7 +18,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
-  final image = avatars[1];
   Firebase_Controller controller = Firebase_Controller();
   final firestoreInstance = FirebaseFirestore.instance;
 
@@ -89,7 +88,7 @@ class _ProfileState extends State<Profile> {
         profile_total_time_worked = value.data()!["total_time_worked"];
         profile_revenue_generated = value.data()!["revenue_generated"];
 
-        profile_uid = firebaseUser!.uid;
+        profile_uid = value.data()!["uid"];
         controller.email.text = value.data()!["email"];
         controller.username.text = value.data()!["username"];
       });

@@ -42,7 +42,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map data) {
     return UserModel(
-      uid: data['uid'],
+      uid: data['uid']?? '',
       email: data['email'] ?? '',
       name: data['name'] ?? '',
       photoUrl: data['photoUrl'] ?? '',

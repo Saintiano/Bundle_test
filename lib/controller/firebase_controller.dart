@@ -25,16 +25,9 @@ class Firebase_Controller extends GetxController{
   List<File> _imageMutiplePicked = [];
   late File _singleImage;
   late PickedFile pickedFile;
-
   var uploadedFileURL;
-
-  var bill_rate_facebook = 100;
-  var bill_rate_google = 300;
-
-  var currentDateTime = DateFormat('dd/MM/yyyy HH:mm');
-
-
-
+  static final DateTime now = DateTime.now();
+  static final DateFormat formatter = DateFormat('yyyy-MM-dd');
   late StreamSubscription _subscriptionuser;
 
   final TextEditingController name = TextEditingController();
@@ -104,7 +97,8 @@ class Firebase_Controller extends GetxController{
           email: email, password: password)
           .then((result) async {
         //get current date time
-        var inputDate = currentDateTime.parse('31/12/2000 23:59');
+        final String formattedCurrentTime = formatter.format(now);
+        String _sortTime = DateTime.now().microsecondsSinceEpoch.toString();
 
         print('uID: ' + result.user!.uid.toString());
         print('email: ' + result.user!.email.toString());
@@ -121,7 +115,7 @@ class Firebase_Controller extends GetxController{
           "uid": _uid,
           "email": _email,
           "username": username,
-          "date_of_registration": inputDate.toString(),
+          "date_of_registration": formattedCurrentTime,
         };
 
         //create the user in firestore
@@ -158,7 +152,8 @@ class Firebase_Controller extends GetxController{
 
     try {
       //get current date time
-      var inputDate = currentDateTime.parse('31/12/2000 23:59');
+      final String formattedCurrentTime = formatter.format(now);
+      String _sortTime = DateTime.now().microsecondsSinceEpoch.toString();
 
       String userUID = _auth.currentUser!.uid;
 
@@ -169,7 +164,7 @@ class Firebase_Controller extends GetxController{
         Get.snackbar('Complete account details'.tr," Please upload an image!",
             snackPosition: SnackPosition.BOTTOM,
             duration: Duration(seconds: 10),
-            backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+            backgroundColor: Colors.red,
             colorText: Get.theme.snackBarTheme.actionTextColor);
       }else{
 
@@ -184,12 +179,12 @@ class Firebase_Controller extends GetxController{
           "state": state,
           "position": position,
           "gender": gender,
-          "total_hours_worked": '',
+          "total_hours_worked": '0',
           "active": '',
-          "total_revenue_generated": '',
+          "total_revenue_generated": '0',
           "username": username,
           "phone_number": phone_number,
-          "date_of_registration": inputDate.toString(),
+          "date_of_registration": formattedCurrentTime,
         };
         //create the user in firestore
         _updateUserFirestore(_newUser, userUID);
@@ -204,7 +199,7 @@ class Firebase_Controller extends GetxController{
       Get.snackbar('Complete account details'.tr, error.message!,
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          backgroundColor: Colors.red,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
   }
@@ -233,10 +228,10 @@ class Firebase_Controller extends GetxController{
 
     } catch (error) {
       hideLoadingIndicator();
-      Get.snackbar('auth.signInErrorTitle'.tr, 'auth.signInError'.tr,
+      Get.snackbar('Sign In'.tr, error.toString().tr,
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 7),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          backgroundColor: Colors.red,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
   }
@@ -260,7 +255,7 @@ class Firebase_Controller extends GetxController{
       Get.snackbar('Password Reset Failed'.tr, error.message!,
           snackPosition: SnackPosition.BOTTOM,
           duration: Duration(seconds: 10),
-          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          backgroundColor: Colors.red,
           colorText: Get.theme.snackBarTheme.actionTextColor);
     }
   }

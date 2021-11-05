@@ -68,7 +68,7 @@ class _Complete_SetupState extends State<Complete_Setup> {
         profile_photoUrl = value.data()!["photoUrl"];
         profile_email = value.data()!["email"];
         profile_username = value.data()!["username"];
-        profile_uid = firebaseUser!.uid;
+        profile_uid = value.data()!["uid"];
         controller.email.text = value.data()!["email"];
         controller.username.text = value.data()!["username"];
       });
