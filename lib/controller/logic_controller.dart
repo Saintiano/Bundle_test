@@ -1,7 +1,10 @@
 
 
+import 'package:bundle_test/models/stream_users.dart';
+import 'package:bundle_test/models/time_card.dart';
 import 'package:bundle_test/models/timecard_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,11 +16,14 @@ class Crud_Logic extends GetxController{
   final TextEditingController total_time_worked = TextEditingController();
   final TextEditingController project_name = TextEditingController();
 
-
   // Firestore operation
+  FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   late CollectionReference collectionReference;
-  RxList<TimecardModel> projectTimecards = RxList<TimecardModel>([]);
+  // RxList<TimecardModel> projectTimecards = RxList<TimecardModel>([]);
+
+  Rx<List<Timecard>> timecardList = Rx<List<Timecard>>([]);
+  List<Timecard> get todos => timecardList.value;
 
   late DatabaseReference _userProfiles;
 
@@ -34,13 +40,61 @@ class Crud_Logic extends GetxController{
   static final DateTime now = DateTime.now();
   static final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
-
   var startTime = "".obs;
   var startEnd = "".obs;
 
   DateTime selectedDate = DateTime.now();
 
   var pickedDate = "date".obs;
+
+  @override
+  void onReady() {
+    timecardList.bindStream(timecardsStream());
+    // projectTimecards.bindStream(getAllProjectTimecards());
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+
+  }
+
+  @override
+  void onClose() {
+    total_time_worked.dispose();
+    project_name.dispose();
+  }
+
+  void clearEditingControllers() {
+    total_time_worked.clear();
+    project_name.clear();
+  }
+
+  //stream timecards to list
+  Stream<List<TimecardModel>> getAllProjectTimecards() =>
+      collectionReference.snapshots().map((query) =>
+          query.docs.map((item) => TimecardModel.fromMap(item)).toList());
+
+  Stream<List<Timecard>> timecardsStream() {
+    return firebaseFirestore
+        .collection('Project_Timecards')
+        .doc(auth.currentUser!.uid)
+        .collection('timecards')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<Timecard> timecard = [];
+
+      for (var timecard_details in query.docs) {
+
+        final todoModel = Timecard.fromDocumentSnapshot(documentSnapshot: timecard_details);
+
+        timecard.add(todoModel);
+      }
+
+      return timecard;
+
+    });
+  }
 
   Future<void> selectTime(BuildContext context) async{
     TimeRange result = await showTimeRangePicker(
@@ -74,36 +128,6 @@ class Crud_Logic extends GetxController{
 
     }
 
-  }
-
-  @override
-  void onReady() {
-
-    projectTimecards.bindStream(getAllProjectTimecards());
-  }
-
-
-  @override
-  void onInit() {
-    super.onInit();
-
-  }
-
-//stream timecards to list
-  Stream<List<TimecardModel>> getAllProjectTimecards() =>
-      collectionReference.snapshots().map((query) =>
-          query.docs.map((item) => TimecardModel.fromMap(item)).toList());
-
-
-  @override
-  void onClose() {
-    total_time_worked.dispose();
-    project_name.dispose();
-  }
-
-  void clearEditingControllers() {
-    total_time_worked.clear();
-    project_name.clear();
   }
 
   
@@ -190,18 +214,19 @@ class Crud_Logic extends GetxController{
       "state": state,
       "address": address,
       "gender": gender,
-      "total_hours_worked": total_hours_worked,
+      "total_hours_worked": totalTimeWorkedProject_new.toString(),
       "total_revenue_generated": user_total_revenue_generated.toString(),
       "active": active,
-      "product_id": documentId,
+      "product_id": project_name,
       "billable_rate": billable_rate.toString(),
       "date_created": formattedCurrentTime,
       "date_worked": date_worked,
       "time_started": time_started,
       "time_finished": time_finished,
-      "total_time_worked": totalTimeWorkedProject_new.toString(),
+      "total_time_worked": total_time_worked,
       "sortData": _sortTime,
       "revenue_generated": revenue_generated.toString(),
+      "docId": documentId,
     };
 
 
@@ -219,7 +244,7 @@ class Crud_Logic extends GetxController{
     if (addEditFlag == 1) {
 
       collectionReference
-          .doc(uid).collection(username).doc(documentId)
+          .doc(uid).collection("timecards").doc(documentId)
           .set(timecardInformations).whenComplete(() {
 
         //clear editing controllers
@@ -244,7 +269,7 @@ class Crud_Logic extends GetxController{
       //update timecards
 
       collectionReference
-          .doc(uid).collection(username).doc(documentId)
+          .doc(uid).collection("timecards").doc(documentId)
           .update(timecardInformations).whenComplete(() {
 
         //clear editing controllers

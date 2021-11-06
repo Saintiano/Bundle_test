@@ -14,15 +14,40 @@ class Timecard_Details extends StatefulWidget {
 
 class _Timecard_DetailsState extends State<Timecard_Details> {
 
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _referalCode = TextEditingController();
-  final TextEditingController _countryCode = TextEditingController();
-  final TextEditingController _phoneNumber = TextEditingController();
+  var timecardDetails = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+
+    String uid = timecardDetails[0];
+    String email = timecardDetails[1];
+    String name = timecardDetails[2];
+    String photoUrl = timecardDetails[3];
+
+    String username = timecardDetails[4];
+    String company = timecardDetails[5];
+    String position = timecardDetails[6];
+    String phone_number = timecardDetails[7];
+    String date_of_registration = timecardDetails[8];
+
+    String state = timecardDetails[9];
+    String address = timecardDetails[10];
+    String gender = timecardDetails[11];
+    String total_hours_worked = timecardDetails[12];
+    String total_revenue_generated = timecardDetails[13];
+    String active = timecardDetails[14];
+
+    String billable_rate = timecardDetails[15];
+    String project_name = timecardDetails[16];
+    String date_created = timecardDetails[17];
+    String date_worked = timecardDetails[18];
+    String time_started = timecardDetails[19];
+    String time_finished = timecardDetails[20];
+    String total_time_worked = timecardDetails[21];
+    String revenue_generated = timecardDetails[22];
+    String sortData = timecardDetails[23];
+    String docId = timecardDetails[24];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -94,71 +119,71 @@ class _Timecard_DetailsState extends State<Timecard_Details> {
                 child: Column(
                   children: <Widget>[
 
-                    Divider(),
-                    const ListTile(
-                      title: Text("Project name"),
-                      subtitle: Text("Facebook"),
-                      leading: Icon(Icons.local_parking_rounded),
+                    const Divider(),
+                    ListTile(
+                      title: const Text("Project name"),
+                      subtitle: Text(project_name),
+                      leading: const Icon(Icons.local_parking_rounded),
                     ),
-                    const ListTile(
-                      title: Text("Billable rate"),
-                      subtitle: Text("100"),
-                      leading: Icon(Icons.monetization_on),
+                    ListTile(
+                      title: const  Text("Billable rate"),
+                      subtitle: Text(billable_rate),
+                      leading: const Icon(Icons.monetization_on),
                     ),
-                    const ListTile(
-                      title: Text("Project revenue"),
-                      subtitle: Text("2000"),
-                      leading: Icon(Icons.money),
+                    ListTile(
+                      title: const Text("Project revenue"),
+                      subtitle: Text(revenue_generated),
+                      leading: const Icon(Icons.money),
                     ),
-                    const ListTile(
-                      title: Text("Date create"),
-                      subtitle: Text("2019-07-01 "),
-                      leading: Icon(Icons.calendar_today),
+                    ListTile(
+                      title: const  Text("Date create"),
+                      subtitle: Text(date_created),
+                      leading: const Icon(Icons.calendar_today),
                     ),
                     const ListTile(
                       title: Text("Start time"),
                       subtitle: Text("09:00"),
                       leading: Icon(Icons.timer),
                     ),
-                    const ListTile(
-                      title: Text("End time"),
-                      subtitle: Text("17:00"),
-                      leading: Icon(Icons.timer),
+                    ListTile(
+                      title: const Text("End time"),
+                      subtitle: Text(time_started),
+                      leading: const Icon(Icons.timer),
                     ),
-                    const ListTile(
-                      title: Text("Total time worked (in minutes)"),
-                      subtitle: Text("234"),
-                          leading: Icon(Icons.lock_clock),
+                    ListTile(
+                      title: const Text("Total time worked (in minutes)"),
+                      subtitle: Text(total_time_worked),
+                          leading:const Icon(Icons.lock_clock),
                     ),
                     const Divider(
                       height: 2,
                       thickness: 1,
                     ),
-                    const ListTile(
-                      title: Text("Full Name"),
-                      subtitle: Text("Temi Jane"),
-                      leading: Icon(Icons.person),
+                    ListTile(
+                      title: const Text("Full Name"),
+                      subtitle: Text(name),
+                      leading: const Icon(Icons.person),
                     ),
-                    const ListTile(
-                      title: Text("Email"),
-                      subtitle: Text("butterfly.little@gmail.com"),
-                      leading: Icon(Icons.email),
+                    ListTile(
+                      title: const Text("Email"),
+                      subtitle: Text(email),
+                      leading: const Icon(Icons.email),
                     ),
-                    const ListTile(
-                      title: Text("Phone"),
-                      subtitle: Text("+977-9815225566"),
-                      leading: Icon(Icons.phone),
+                    ListTile(
+                      title: const Text("Phone"),
+                      subtitle: Text(phone_number),
+                      leading: const Icon(Icons.phone),
                     ),
-                    const ListTile(
-                      title: Text("Position"),
-                      subtitle: Text("Marketer"),
-                      leading: Icon(Icons.web),
+                    ListTile(
+                      title: const Text("Position"),
+                      subtitle: Text(position),
+                      leading: const Icon(Icons.web),
                     ),
 
-                    const ListTile(
-                      title: Text("state"),
-                      subtitle: Text("Kano"),
-                      leading: Icon(Icons.location_on_rounded),
+                    ListTile(
+                      title: const Text("state"),
+                      subtitle: Text(state),
+                      leading: const Icon(Icons.location_on_rounded),
                     ),
                     const SizedBox(
                       height: 10,

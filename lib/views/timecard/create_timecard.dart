@@ -221,18 +221,20 @@ class _Create_TimecardState extends State<Create_Timecard> {
                                         v == null
                                             ? "required field"
                                             : null,
-                                        hint: "Select a gender",
+                                        hint: "Select a project company",
                                         mode: Mode.MENU,
                                         showSelectedItem: true,
                                         items: project,
                                         label: "Select a project company *",
                                         showClearButton: true,
-                                        onChanged: print,
+                                        onChanged: (value){
+                                          crud_logic.project_name.text = value!;
+                                        },
                                         popupItemDisabled: (String? s) =>
                                         s?.startsWith('Z') ?? false,
                                         //Deactivate any option starting with letter Z
                                         clearButtonSplashRadius: 20,
-                                        selectedItem: "Select a project company",
+                                        selectedItem: crud_logic.project_name.text,
                                         //Preselected data
                                         onBeforeChange: (a, b) {
                                           if (b == null) {

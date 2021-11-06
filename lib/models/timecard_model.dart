@@ -107,4 +107,6 @@ class TimecardModel {
         "time_started": time_started, "time_finished": time_finished, "total_time_worked": total_time_worked, "revenue_generated": revenue_generated,
         "sortData": sortData,
       };
+
 }
+

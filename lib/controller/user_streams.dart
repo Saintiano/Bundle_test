@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bundle_test/models/read_user.dart';
+import 'package:bundle_test/models/stream_users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -56,7 +57,7 @@ class FirebaseUserStream {
 
   /// FirebaseTodos.getTodoStream("-KriJ8Sg4lWIoNswKWc4", _updateTodo)
   /// .then((StreamSubscription s) => _subscriptionTodo = s);
-  static Future<StreamSubscription<Event>> getUsertream(
+  static Future<StreamSubscription<Event>> getUserStream(
       void onData(UserData user)) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     String userUID = _auth.currentUser!.uid;
@@ -114,5 +115,28 @@ class FirebaseUserStream {
     profile_active = active;
 
   }
+
+  /// FirebaseTodos.getTodoStream("-KriJ8Sg4lWIoNswKWc4", _updateTodo)
+  /// .then((StreamSubscription s) => _subscriptionTodo = s);
+  static Future<StreamSubscription<Event>> getUserStreamFirestore(
+      void onData(UserData user)) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    String userUID = _auth.currentUser!.uid;
+
+    StreamSubscription<Event> subscription = FirebaseDatabase.instance
+        .reference()
+        .child("User_Profiles")
+        .child(userUID)
+        .onValue
+        .listen((Event event) {
+      var userData =
+      new UserData.fromJson(event.snapshot.key, event.snapshot.value);
+      onData(userData);
+    });
+
+    return subscription;
+  }
+
+
 
 }

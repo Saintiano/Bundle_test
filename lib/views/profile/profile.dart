@@ -205,7 +205,7 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         height: 5,
                                       ),
-                                      Text("Total Transactions")
+                                      Text("Total Projects")
                                     ],
                                   ),
                                 ),
@@ -220,7 +220,7 @@ class _ProfileState extends State<Profile> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text("Total Amounts")
+                                      const Text("Total Time")
                                     ],
                                   ),
                                 ),
@@ -253,30 +253,53 @@ class _ProfileState extends State<Profile> {
                         ),
                         const Divider(),
                         ListTile(
-                          title:  const Text("Full Name"),
-                          subtitle: Text(profile_name),
+                          title:  const Text("Full Name"
+                          ),
+                          subtitle: Text(profile_name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                           leading: const Icon(Icons.person),
                         ),
                         ListTile(
                           title:  const Text("Email"),
-                          subtitle: Text(profile_email),
+                          subtitle: Text(profile_email,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                           leading: const Icon(Icons.email),
                         ),
                         ListTile(
-                          title:  const Text("Phone"),
-                          subtitle: Text(profile_phone_number),
+                          title:  const Text("Phone"
+                          ),
+                          subtitle: Text(profile_phone_number,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+
+                            ),
+                          ),
                           leading: const Icon(Icons.phone),
                         ),
                         ListTile(
                           title: const Text("Designation"),
-                          subtitle: Text(profile_position),
+                          subtitle: Text(profile_position,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                           leading: const Icon(Icons.web),
                         ),
 
 
                         ListTile(
                           title: const Text("state"),
-                          subtitle: Text(profile_state),
+                          subtitle: Text(profile_state,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
                           leading: const Icon(Icons.location_on_rounded),
                         ),
                         const SizedBox(

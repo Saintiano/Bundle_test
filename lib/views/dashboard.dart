@@ -4,10 +4,13 @@ import 'dart:ui';
 import 'package:bundle_test/components/history_tap.dart';
 import 'package:bundle_test/components/create_timecard_card.dart';
 import 'package:bundle_test/constants/images.dart';
+import 'package:bundle_test/constants/styles.dart';
 import 'package:bundle_test/controller/firebase_controller.dart';
+import 'package:bundle_test/views/timecard/timecard_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../components/transaction_history_card.dart';
@@ -21,7 +24,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
-  final image = avatars[1];
+
   Firebase_Controller controller = Firebase_Controller();
   final firestoreInstance = FirebaseFirestore.instance;
 
@@ -117,6 +120,7 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Colors.grey.shade300,
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: <Widget>[
@@ -330,7 +334,40 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
             ),
-            History_Tap(),
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 0, left: 10),
+              child: const Text("Recent Timecards",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  color: Colors.deepPurple
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 10),
+              margin: const EdgeInsets.only(top: 10),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      Colors.red,
+                      Colors.blue,
+                    ],
+                  ),
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(0),
+                      bottomRight: Radius.circular(0),
+                      topRight: Radius.circular(15),
+                      topLeft: Radius.circular(15)
+                  )
+              ),
+              height: 400,
+              width: double.infinity,
+              child: const History_Tap(),
+            )
           ],
         )
       ),

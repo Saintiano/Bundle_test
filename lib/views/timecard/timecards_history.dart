@@ -1,7 +1,13 @@
 import 'package:bundle_test/components/bottom_nav_bar.dart';
 import 'package:bundle_test/components/history_tap.dart';
+import 'package:bundle_test/constants/styles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+
+import 'timecard_details.dart';
 
 class Timecard_History extends StatefulWidget {
   const Timecard_History({Key? key}) : super(key: key);
@@ -11,6 +17,9 @@ class Timecard_History extends StatefulWidget {
 }
 
 class _Timecard_HistoryState extends State<Timecard_History> {
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,14 +83,7 @@ class _Timecard_HistoryState extends State<Timecard_History> {
                   bottomRight: Radius.circular(0)
               )
           ),
-          child: SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                   History_Tap()
-              ]
-            ),
-          ),
+          child: const History_Tap(),
         )
     );
   }
